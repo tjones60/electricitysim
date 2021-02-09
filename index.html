@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Electricity Grid Simulator</title>
+        <link rel="stylesheet" href="/style.css">
+        <style>
+
+        </style>
+    </head>
+
+    <body>
+
+        <script src="/menu.js"></script>
+        <script src="simulate.js"></script>
+
+        <div id="hdiv"><b>Electricity Grid Simulator</b></div>
+
+        <div id="bdiv">
+
+            <div class="subheader">Battery</div>
+            <div class="indentedlist">
+                <table>
+                    <tr><td>Battery Capacity (MWh): </td><td><input type="number" min="0.0" step="0.01" value="1000" id="battery_capacity"></td></tr>
+                    <tr><td>Initial State of Charge (%): </td><td><input type="number" min="0.0" max="1.0" step="0.01" value="0.5" id="initial_soc"></td></tr>
+                    <tr><td>Maximum State of Charge (%): </td><td><input type="number" min="0.0" max="1.0" step="0.01" value="1.0" id="max_soc"></td></tr>
+                    <tr><td>Minimum State of Charge (%): </td><td><input type="number" min="0.0" max="1.0" step="0.01" value="0.0" id="min_soc"></td></tr>
+                </table>
+            </div>
+
+            <div class="subheader">Source</div>
+            <div class="indentedlist">
+                <table>
+                    <tr><td>Nuclear Capacity (MW): </td><td><input type="number" min="0.0" step="0.01" value="2000" id="nuclear"></td></tr>
+                    <tr><td>Solar Scale Factor (%): </td><td><input type="number" min="0.0" step="0.01" value="1.0" id="solar_scale_factor"></td></tr>
+                    <tr><td>Wind Scale Factor (%): </td><td><input type="number" min="0.0" step="0.01" value="1.0" id="wind_scale_factor"></td></tr>
+                </table>
+            </div>
+
+            <button onclick="simulate()">Simulate</button><br>
+
+            <div id="progress"></div>
+            <div id="result"></div>
+        </div>
+
+    </body>
+
+</html>
