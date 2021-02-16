@@ -6,8 +6,9 @@ incx=10
 starty=0
 stopy=20000
 incy=2000
+rootdir="/home/ldap/tjones60/electricitysim"
 
-if [ -d "batch/$name" ]; then
+if [ -d "$rootdir/batch/$name" ]; then
     rm -r batch/$name/*
 fi
 
@@ -19,9 +20,9 @@ while [ $x -le $stopx ]; do
     let y=$starty
     while [ $y -le $stopy ]; do
 
-        mkdir -p "batch/$name/$x/$y"
+        mkdir -p "$rootdir/batch/$name/$x/$y"
 
-        config="batch/$name/$x/$y/config.ini"
+        config="$rootdir/batch/$name/$x/$y/config.ini"
 
         echo -e "[Battery]" >> $config
         echo -e "battery_capacity = 200000" >> $config
@@ -32,10 +33,10 @@ while [ $x -le $stopx ]; do
         echo -e "nuclear = $y" >> $config
         echo -e "solar_scale_factor = $n" >> $config
         echo -e "wind_scale_factor = $n" >> $config
-        echo -e "production = data/production-ca-2019.csv" >> $config
-        echo -e "curtailment = data/curtailment-ca-2019.csv" >> $config
+        echo -e "production = $rootdir/data/production-ca-2019.csv" >> $config
+        echo -e "curtailment = $rootdir/data/curtailment-ca-2019.csv" >> $config
         
-        echo "python3 simulate.py $config batch/$name/$x/$y/output.csv" >> batch/$name/jobs
+        echo "python3 $rootdir/simulate.py $config $rootdir/batch/$name/$x/$y/output.csv" >> $rootdir/batch/$name/jobs
     
         let y=y+$incy
     done
@@ -43,9 +44,9 @@ while [ $x -le $stopx ]; do
     let x=x+$incx
 done
 
-parallel --jobs 6 < batch/$name/jobs
+parallel --slf sshlogin < $rootdir/batch/$name/jobs
 
-output="batch/$name/output.csv"
+output="$rootdir/batch/$name/output.csv"
 
 let x=$startx
 while [ $x -le $stopx ]; do
@@ -57,7 +58,7 @@ while [ $x -le $stopx ]; do
     let y=$starty
     while [ $y -le $stopy ]; do
 
-        head -n 2 batch/$name/$x/$y/output.csv | sed -n '2p' | tr -d '\n' >> $output
+        head -n 2 $rootdir/batch/$name/$x/$y/output.csv | sed -n '2p' | tr -d '\n' >> $output
         echo -n "," >> $output
 
         let y=y+$incy
