@@ -68,10 +68,10 @@ def generate_simulation_inputs(file):
                                    "min_soc", "max_soc", "initial_soc", 
                                    "battery_capacity"])
   
-  nuclear_samples = 10
-  solar_samples = 5
-  wind_samples = 5
-  battery_samples = 10
+  nuclear_samples = 1
+  solar_samples = 1
+  wind_samples = 1
+  battery_samples = 11
 
   # df_configs["nuclear"] = np.repeat(np.linspace(1000, 4000, nuclear_samples), 
   #                                   solar_samples*wind_samples*battery_samples)
@@ -84,15 +84,15 @@ def generate_simulation_inputs(file):
   #   df_configs.loc[i:i+9, 'battery_capacity'] = np.linspace(1000, 2000, battery_samples)
   # df_configs.head(100)
 
-  df_configs["nuclear"] = np.repeat(np.linspace(1000, 4000, nuclear_samples), 
+  df_configs["nuclear"] = np.repeat(np.linspace(2000, 2000, nuclear_samples), 
                                     solar_samples*wind_samples*battery_samples)
-  solar = np.repeat(np.linspace(1,2,solar_samples), wind_samples*battery_samples)
+  solar = np.repeat(np.linspace(4,4,solar_samples), wind_samples*battery_samples)
   solar = list(solar) * (len(df_configs)//len(solar))
   df_configs['solar_scale_factor'] = solar
-  wind = np.repeat(np.linspace(1, 2, wind_samples), battery_samples)
+  wind = np.repeat(np.linspace(4,4,wind_samples), battery_samples)
   wind = list(wind) * (len(df_configs)//len(wind))
   df_configs['wind_scale_factor'] = wind
-  battery = np.linspace(1000, 2000, battery_samples)
+  battery = np.linspace(0, 500000, battery_samples)
   battery = list(battery) * (len(df_configs)//len(battery))
   df_configs['battery_capacity'] = battery
 
@@ -103,10 +103,6 @@ def generate_simulation_inputs(file):
   df_configs['min_soc'] = 0.0
   df_configs['max_soc'] = 1.0
   df_configs['initial_soc'] = 0.5
-
-  df_configs["current_value"] = df_configs["battery_capacity"] * df_configs["initial_soc"]
-  df_configs["min_value"] = df_configs["battery_capacity"] * df_configs["min_soc"]
-  df_configs["max_value"] = df_configs["battery_capacity"] * df_configs["max_soc"]
 
   return df_configs
 
@@ -138,7 +134,7 @@ def simulate(input_dict):
   soc = []
   net = df_final['net'].array
   #time_factor = df_final['time_factor'].array
-  time_factor = 5 # simulation advances at constant 5 minute intervals
+  time_factor = 12 # simulation advances at constant 5 minute intervals
 
   for i in range(len(df_final)):
     temp = current_value + net[i] / time_factor
@@ -188,14 +184,15 @@ def simulate(input_dict):
             "Total Curtailed":total_curtailed}
 
   # maybe need garbage collection command
-  return result
+  print((input_dict, result))
+  return (input_dict, result)
   
 def simulate_distributed(configs):
   start = time.time()
   
   results = []
-  for result in pool.map(simulate, configs.to_dict('records')[:10]):
-      print(result)
+  config_list = configs.to_dict('records')
+  for result in pool.map(simulate, config_list):
       results.append(result)
       
   print("Finished in: {:.2f}s".format(time.time()-start))
