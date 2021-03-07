@@ -1,4 +1,3 @@
-
-batch/*
-output/*
+.vscode
+parallel/batch/*
 simulate/target/*

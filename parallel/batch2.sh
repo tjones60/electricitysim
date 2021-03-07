@@ -1,12 +1,12 @@
 #!/bin/bash
 name="renewables-nuclear-4hrbatt"
 startx=0
-stopx=1000
-incx=10
+stopx=500
+incx=100
 starty=0
-stopy=20000
+stopy=10000
 incy=2000
-rootdir="/home/ldap/tjones60/electricitysim"
+rootdir="/opt/electricitysim/parallel"
 
 if [ -d "$rootdir/batch/$name" ]; then
     rm -r batch/$name/*
@@ -33,8 +33,8 @@ while [ $x -le $stopx ]; do
         echo -e "nuclear = $y" >> $config
         echo -e "solar_scale_factor = $n" >> $config
         echo -e "wind_scale_factor = $n" >> $config
-        echo -e "production = $rootdir/data/production-ca-2019.csv" >> $config
-        echo -e "curtailment = $rootdir/data/curtailment-ca-2019.csv" >> $config
+        echo -e "production = $rootdir/production-ca-2019.csv" >> $config
+        echo -e "curtailment = $rootdir/curtailment-ca-2019.csv" >> $config
         
         echo "python3 $rootdir/simulate.py $config $rootdir/batch/$name/$x/$y/output.csv" >> $rootdir/batch/$name/jobs
     

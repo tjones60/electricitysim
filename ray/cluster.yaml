@@ -37,7 +37,8 @@ idle_timeout_minutes: 5
 provider:
     type: local
     head_ip: 192.168.2.231
-    worker_ips: [192.168.2.232]
+    worker_ips: []
+    #worker_ips: [192.168.2.232]
     # Optional when running automatic cluster management on prem. If you use a coordinator server,
     # then you can launch multiple autoscaling clusters on the same set of machines, and the coordinator
     # will assign individual nodes to clusters as needed.
