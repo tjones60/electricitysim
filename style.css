@@ -1,0 +1,128 @@
+#hdiv {
+    position: fixed;
+    margin: 0 0 0 0;
+    padding: 10px;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: calc(100% - 20px);
+    height: 30px;
+    background: rgba(255,255,255,0.9);
+    font-family: Verdana;
+    font-size: 20px;
+    text-align: center;
+}
+
+#bdiv {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    font-family: Verdana;
+    font-size: 16px;
+}
+
+#fdiv {
+    position: fixed;
+    margin: 0 0 0 0;
+    padding: 10px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: calc(100% - 20px);
+    height: 20px;
+    background: rgba(255,255,255,0.9);
+    font-family: Verdana;
+    font-size: 12px;
+    text-align: center;
+}
+
+#mbtn {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    padding: 10px;
+}
+
+#menu {
+    font-family: Verdana;
+    font-size: 18px;
+    background: rgba(255,255,255,0.95);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 450px;
+    height: 100%;
+    padding-top: 50px;
+    border-right: 2px solid #e6e6e6;
+    z-index: 99;
+}
+
+#menu a {
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 0 5px 0 5px;
+}
+
+#menu a:hover, #mbtn:hover {
+    background-color: #e6e6e6;
+    cursor:pointer;
+}
+
+#menu img {
+    max-width: 18px;
+    max-height: 18px;
+}
+
+#menu div {
+    display: inline-block;
+    padding: 5px;
+    margin:  0 0 0 0;
+    width: 24px;
+    text-align: center;
+}
+
+#menu p {
+    display: inline-block;
+    padding: 5px;
+    margin:  0 0 0 0;
+    width: 396px;
+}
+
+.lnkbox {
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 4px;
+    line-height: 120px;
+    padding: 10px;
+    margin: 10px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.lnkbox p {
+    margin: 0;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+a {
+    text-decoration: underline;
+    color: black;
+}
+
+.subheader {
+    font-family: Verdana;
+    font-size: 18px;
+    margin: 10px 10px 10px 10px;
+}
+
+.indentedlist {
+    font-family: Verdana;
+    font-size: 16px;
+    margin: 10px 10px 10px 30px;
+    line-height: 1.5;
+}
