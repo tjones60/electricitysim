@@ -5,9 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Electricity Grid Simulator</title>
         <link rel="stylesheet" href="/style.css">
-        <style>
-
-        </style>
+        <script src="plotly-latest.min.js"></script>
     </head>
 
     <body>
@@ -17,23 +15,101 @@
         <div id="hdiv"><b>Electricity Grid Simulator</b></div>
 
         <div id="bdiv">
+            
+            <div class="subheader">Nuclear</div>
+            <div class="indentedlist">
+                <table>
+                    <tr><td>Minimum (MW): </td><td><input type="number" min="0" step="0.01" value="0" id="nuclear_min"></td></tr>
+                    <tr><td>Maximum (MW): </td><td><input type="number" min="0" step="0.01" value="20000" id="nuclear_max"></td></tr>
+                    <tr><td>Samples: </td><td><input type="number" min="0" step="1" value="11" id="nuclear_samples"></td></tr>
+                </table>
+            </div>
+
+            <div class="subheader">Solar</div>
+            <div class="indentedlist">
+                <table>
+                    <tr><td>Minimum Scale Factor: </td><td><input type="number" min="0" step="0.01" value="0" id="solar_min"></td></tr>
+                    <tr><td>Maximum Scale Factor: </td><td><input type="number" min="0" step="0.01" value="10" id="solar_max"></td></tr>
+                    <tr><td>Samples: </td><td><input type="number" min="0" step="1" value="101" id="solar_samples"></td></tr>
+                </table>
+            </div>
+
+            <div class="subheader">Wind</div>
+            <div class="indentedlist">
+                <table>
+                    <tr><td>Minimum Scale Factor: </td><td><input type="number" min="0" step="0.01" value="1.0" id="wind_min"></td></tr>
+                    <tr><td>Maximum Scale Factor: </td><td><input type="number" min="0" step="0.01" value="1.0" id="wind_max"></td></tr>
+                    <tr><td>Samples: </td><td><input type="number" min="0" step="1" value="1" id="wind_samples"></td></tr>
+                    <tr><td>Same as solar: </td><td><input type="checkbox" id="wind_same_as_solar" checked></td></tr>
+                </table>
+            </div>
 
             <div class="subheader">Battery</div>
             <div class="indentedlist">
                 <table>
-                    <tr><td>Battery Capacity (MWh): </td><td><input type="number" min="0.0" step="0.01" value="1000" id="battery_capacity"></td></tr>
+                    <tr><td>Minimum (MWh): </td><td><input type="number" min="0.0" step="0.01" value="200000" id="battery_min"></td></tr>
+                    <tr><td>Maximum (MWh): </td><td><input type="number" min="0.0" step="0.01" value="200000" id="battery_max"></td></tr>
+                    <tr><td>Samples: </td><td><input type="number" min="0" step="1" value="1" id="battery_samples"></td></tr>
                     <tr><td>Initial State of Charge (%): </td><td><input type="number" min="0.0" max="1.0" step="0.01" value="0.5" id="initial_soc"></td></tr>
                     <tr><td>Maximum State of Charge (%): </td><td><input type="number" min="0.0" max="1.0" step="0.01" value="1.0" id="max_soc"></td></tr>
                     <tr><td>Minimum State of Charge (%): </td><td><input type="number" min="0.0" max="1.0" step="0.01" value="0.0" id="min_soc"></td></tr>
                 </table>
             </div>
 
-            <div class="subheader">Source</div>
+            <div class="subheader">Data</div>
             <div class="indentedlist">
                 <table>
-                    <tr><td>Nuclear Capacity (MW): </td><td><input type="number" min="0.0" step="0.01" value="2000" id="nuclear"></td></tr>
-                    <tr><td>Solar Scale Factor (%): </td><td><input type="number" min="0.0" step="0.01" value="1.0" id="solar_scale_factor"></td></tr>
-                    <tr><td>Wind Scale Factor (%): </td><td><input type="number" min="0.0" step="0.01" value="1.0" id="wind_scale_factor"></td></tr>
+                    <tr><td>Production File: </td><td><input type="text" value="/opt/electricitysim/data/ca-2019-production.csv" id="production"></td></tr>
+                    <tr><td>Curtailment File: </td><td><input type="text" value="/opt/electricitysim/data/ca-2019-curtailment.csv" id="curtailment"></td></tr>
+                    <tr><td>Time Factor: </td><td><input type="number" min="0.01" step="0.01" value="12" id="time_factor"></td></tr>
+                    <tr><td>Export Intermediate Data: </td><td><input type="checkbox" id="export_intermediate"></td></tr>
+                </table>
+            </div>
+
+            <div class="subheader">Graph</div>
+            <div class="indentedlist">
+                <table>
+                    <tr><td>Horizontal: </td><td><select id="x1">
+                        <option value="nuclear">Nuclear</option>
+                        <option value="solar" selected>Solar</option>
+                        <option value="wind">Wind</option>
+                        <option value="battery">Battery</option>
+                    </select></td></tr>
+                    <tr><td>Series: </td><td><select id="x2">
+                        <option value="none">None</option>
+                        <option value="nuclear" selected>Nuclear</option>
+                        <option value="solar">Solar</option>
+                        <option value="wind">Wind</option>
+                        <option value="battery">Battery</option>
+                    </select></td></tr>
+                    <tr><td>Constant 1: </td><td><select id="c1">
+                        <option value="none">None</option>
+                        <option value="nuclear">Nuclear</option>
+                        <option value="solar">Solar</option>
+                        <option value="wind">Wind</option>
+                        <option value="battery" selected>Battery</option>
+                    </select></td></tr>
+                    <tr><td>Value 1: </td><td><input type="number" min="0" step="0.01" value="200000" id="v1"></td></tr>
+                    <tr><td>Constant 2: </td><td><select id="c2">
+                        <option value="none" selected>None</option>
+                        <option value="nuclear">Nuclear</option>
+                        <option value="solar">Solar</option>
+                        <option value="wind">Wind</option>
+                        <option value="battery">Battery</option>
+                    </select></td></tr>
+                    <tr><td>Value 2: </td><td><input type="number" min="0" step="0.01" value="0" id="v2"></td></tr>
+                    <tr><td>Constant 3: </td><td><select id="c3">
+                        <option value="none" selected>None</option>
+                        <option value="nuclear">Nuclear</option>
+                        <option value="solar">Solar</option>
+                        <option value="wind">Wind</option>
+                        <option value="battery">Battery</option>
+                    </select></td></tr>
+                    <tr><td>Value 3: </td><td><input type="number" min="0" step="0.01" value="0" id="v3"></td></tr>
+                    <tr><td>Vertical: </td><td><select id="y">
+                        <option value="clean" selected>Clean</option>
+                        <option value="curtailment">Curtailment</option>
+                    </select></td></tr>
                 </table>
             </div>
 
@@ -41,6 +117,7 @@
 
             <div id="progress"></div>
             <div id="result"></div>
+            <div id="plot" style="width:1000px;height:500px;"></div>
         </div>
 
     </body>

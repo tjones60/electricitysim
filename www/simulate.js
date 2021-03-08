@@ -1,20 +1,70 @@
 var buffer;
 var data;
 
-function simulate() {
-    sendRequest('simulate.php',
-        'battery_capacity='+getValue('battery_capacity')+
-        '&initial_soc='+getValue('initial_soc')+
-        '&max_soc='+getValue('max_soc')+
-        '&min_soc='+getValue('min_soc')+
-        '&nuclear='+getValue('nuclear')+
-        '&solar_scale_factor='+getValue('solar_scale_factor')+
-        '&wind_scale_factor='+getValue('wind_scale_factor'), 
-        document.getElementById('result'));
+function getValue(varname) {
+    return document.getElementById(varname).value;
 }
 
-function getValue(varname) {
-    return encodeURIComponent(document.getElementById(varname).value);
+function getChecked(varname) {
+    return document.getElementById(varname).checked;
+}
+
+function simulate() {
+
+    var config = {
+        "nuclear": {
+            "nuclear_min": parseFloat(getValue('nuclear_min')),
+            "nuclear_max": parseFloat(getValue('nuclear_max')),
+            "nuclear_samples": parseInt(getValue('nuclear_samples'))
+        },
+        "solar": {
+            "solar_min": parseFloat(getValue('solar_min')),
+            "solar_max": parseFloat(getValue('solar_max')),
+            "solar_samples": parseInt(getValue('solar_samples'))
+        },
+        "wind": {
+            "wind_min": parseFloat(getValue('wind_min')),
+            "wind_max": parseFloat(getValue('wind_max')),
+            "wind_samples": parseInt(getValue('wind_samples')),
+            "wind_same_as_solar": getChecked('wind_same_as_solar')
+        },
+        "battery": {
+            "battery_min": parseFloat(getValue('battery_min')),
+            "battery_max": parseFloat(getValue('battery_max')),
+            "battery_samples": parseInt(getValue('battery_samples')),
+            "initial_soc": parseFloat(getValue('initial_soc')),
+            "max_soc": parseFloat(getValue('max_soc')),
+            "min_soc": parseFloat(getValue('min_soc'))
+        },
+        "data": {
+            "production": getValue("production"),
+            "curtailment": getValue("curtailment"),
+            "time_factor": parseFloat(getValue('time_factor')),
+            "export_intermediate": getChecked('export_intermediate')
+        },
+        "graph": {
+            "x1": getValue("x1"),
+            "x2": getValue("x2"),
+            "c1": getValue('c1'),
+            "v1": parseFloat(getValue('v1')),
+            "c2": getValue('c2'),
+            "v2": parseFloat(getValue('v2')),
+            "c3": getValue('c3'),
+            "v3": parseFloat(getValue('v3')),
+            "y": getValue('y'),
+        }
+    };
+
+    console.log(JSON.stringify(config, null, 4));
+
+    sendRequest('simulate.php',
+        'config='+encodeURIComponent(JSON.stringify(config)), 
+        null, draw);
+}
+
+function draw(data_str) {
+    var data = JSON.parse(data_str);
+    Plotly.newPlot(document.getElementById('plot'), data.traces, data.layout);
 }
 
 function sendRequest(script, args=null, result=null, callback=null) {

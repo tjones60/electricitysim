@@ -1,3 +1,4 @@
 .vscode
 parallel/batch/*
 simulate/target/*
+www/jobs/*

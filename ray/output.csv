@@ -26,26 +26,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 0.0,
-            "solar": 0.5,
-            "wind": 0.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 10.396426383210834,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 22714332.768333193,
-            "gas_value": 196629656.22749975,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 0.0,
             "solar": 1.0,
             "wind": 1.0
         },
@@ -56,26 +36,6 @@
             "demand_value": 219443988.9958328,
             "clean_value": 45428665.536666386,
             "gas_value": 173915323.45916665,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 0.0,
-            "solar": 1.5,
-            "wind": 1.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 31.098139719970685,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 68142998.30499992,
-            "gas_value": 151200990.69083163,
             "curtailed_value": 0.0
         }
     },
@@ -106,26 +66,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 0.0,
-            "solar": 2.5,
-            "wind": 2.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 51.79985305672907,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 113571663.84166743,
-            "gas_value": 105772325.15416668,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 0.0,
             "solar": 3.0,
             "wind": 3.0
         },
@@ -146,26 +86,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 0.0,
-            "solar": 3.5,
-            "wind": 3.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 70.81567752581915,
-            "curtailed": 1.6858888676692156,
-            "demand_value": 219443988.9958328,
-            "clean_value": 159000329.37833318,
-            "gas_value": 64043241.39874977,
-            "curtailed_value": 3699581.7812500037
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 0.0,
             "solar": 4.0,
             "wind": 4.0
         },
@@ -177,26 +97,6 @@
             "clean_value": 181714662.14666554,
             "gas_value": 49885618.78833368,
             "curtailed_value": 12256291.939166652
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 0.0,
-            "solar": 4.5,
-            "wind": 4.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 82.07001278262531,
-            "curtailed": 11.133266947622195,
-            "demand_value": 219443988.9958328,
-            "clean_value": 204428994.9149996,
-            "gas_value": 39346279.17624995,
-            "curtailed_value": 24431285.09541674
         }
     },
     {
@@ -246,26 +146,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 2000.0,
-            "solar": 0.5,
-            "wind": 0.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 18.379784724519254,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 40233332.76833339,
-            "gas_value": 179110656.227501,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 2000.0,
             "solar": 1.0,
             "wind": 1.0
         },
@@ -276,26 +156,6 @@
             "demand_value": 219443988.9958328,
             "clean_value": 62947665.536666654,
             "gas_value": 156396323.45916745,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 2000.0,
-            "solar": 1.5,
-            "wind": 1.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 39.08149806127923,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 85661998.30499977,
-            "gas_value": 133681990.6908326,
             "curtailed_value": 0.0
         }
     },
@@ -326,26 +186,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 2000.0,
-            "solar": 2.5,
-            "wind": 2.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 59.77429636782623,
-            "curtailed": 0.008915030211667466,
-            "demand_value": 219443988.9958328,
-            "clean_value": 131090663.84166628,
-            "gas_value": 88272888.65208374,
-            "curtailed_value": 19563.49791666672
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 2000.0,
             "solar": 3.0,
             "wind": 3.0
         },
@@ -366,26 +206,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 2000.0,
-            "solar": 3.5,
-            "wind": 3.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 77.05749796794883,
-            "curtailed": 3.427426766848544,
-            "demand_value": 219443988.9958328,
-            "clean_value": 176519329.3783331,
-            "gas_value": 50345941.63458308,
-            "curtailed_value": 7521282.017083346
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 2000.0,
             "solar": 4.0,
             "wind": 4.0
         },
@@ -397,26 +217,6 @@
             "clean_value": 199233662.146667,
             "gas_value": 38661092.915000215,
             "curtailed_value": 18550766.065833397
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 2000.0,
-            "solar": 4.5,
-            "wind": 4.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 86.44768433021508,
-            "curtailed": 14.73895374134134,
-            "demand_value": 219443988.9958328,
-            "clean_value": 221947994.9149988,
-            "gas_value": 29739742.107083354,
-            "curtailed_value": 32343748.02624998
         }
     },
     {
@@ -466,26 +266,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 4000.0,
-            "solar": 0.5,
-            "wind": 0.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 26.3631430658286,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 57752332.768333055,
-            "gas_value": 161591656.22750023,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 4000.0,
             "solar": 1.0,
             "wind": 1.0
         },
@@ -496,26 +276,6 @@
             "demand_value": 219443988.9958328,
             "clean_value": 80466665.53666678,
             "gas_value": 138877323.45916715,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 4000.0,
-            "solar": 1.5,
-            "wind": 1.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 47.06485640258816,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 103180998.30500042,
-            "gas_value": 116162990.69083272,
             "curtailed_value": 0.0
         }
     },
@@ -546,26 +306,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 4000.0,
-            "solar": 2.5,
-            "wind": 2.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 67.6819872865841,
-            "curtailed": 0.08458245276285892,
-            "demand_value": 219443988.9958328,
-            "clean_value": 148609663.8416656,
-            "gas_value": 70919936.26250023,
-            "curtailed_value": 185611.1083333336
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 4000.0,
             "solar": 3.0,
             "wind": 3.0
         },
@@ -586,26 +326,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 4000.0,
-            "solar": 3.5,
-            "wind": 3.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 82.49874731782737,
-            "curtailed": 5.96953575827894,
-            "demand_value": 219443988.9958328,
-            "clean_value": 194038329.37833384,
-            "gas_value": 38405447.009999804,
-            "curtailed_value": 13099787.39249994
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 4000.0,
             "solar": 4.0,
             "wind": 4.0
         },
@@ -617,26 +337,6 @@
             "clean_value": 216752662.14666697,
             "gas_value": 28391373.09250003,
             "curtailed_value": 25800046.24333346
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 4000.0,
-            "solar": 4.5,
-            "wind": 4.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 90.24523073308096,
-            "curtailed": 18.92476567978443,
-            "demand_value": 219443988.9958328,
-            "clean_value": 239466994.91499892,
-            "gas_value": 21406254.796666685,
-            "curtailed_value": 41529260.715833284
         }
     },
     {
@@ -686,26 +386,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 6000.0,
-            "solar": 0.5,
-            "wind": 0.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 34.34650140713781,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 75271332.76833214,
-            "gas_value": 144072656.22749975,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 6000.0,
             "solar": 1.0,
             "wind": 1.0
         },
@@ -716,26 +396,6 @@
             "demand_value": 219443988.9958328,
             "clean_value": 97985665.53666669,
             "gas_value": 121358323.45916611,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 6000.0,
-            "solar": 1.5,
-            "wind": 1.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 55.04821474389665,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 120699998.30499904,
-            "gas_value": 98643990.69083382,
             "curtailed_value": 0.0
         }
     },
@@ -766,26 +426,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 6000.0,
-            "solar": 2.5,
-            "wind": 2.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 75.26633802071747,
-            "curtailed": 0.483590059938629,
-            "demand_value": 219443988.9958328,
-            "clean_value": 166128663.841666,
-            "gas_value": 54276534.47208325,
-            "curtailed_value": 1061209.3179166664
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 6000.0,
             "solar": 3.0,
             "wind": 3.0
         },
@@ -806,26 +446,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 6000.0,
-            "solar": 3.5,
-            "wind": 3.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 87.3565026853571,
-            "curtailed": 9.095138732058077,
-            "demand_value": 219443988.9958328,
-            "clean_value": 211557329.37833536,
-            "gas_value": 27745394.85583335,
-            "curtailed_value": 19958735.23833325
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 6000.0,
             "solar": 4.0,
             "wind": 4.0
         },
@@ -837,26 +457,6 @@
             "clean_value": 234271662.14666733,
             "gas_value": 19739113.514999993,
             "curtailed_value": 34666786.665833436
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 6000.0,
-            "solar": 4.5,
-            "wind": 4.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 93.3732894616405,
-            "curtailed": 23.78006529253407,
-            "demand_value": 219443988.9958328,
-            "clean_value": 256985994.91499838,
-            "gas_value": 14541917.944583334,
-            "curtailed_value": 52183923.863750316
         }
     },
     {
@@ -906,26 +506,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 8000.0,
-            "solar": 0.5,
-            "wind": 0.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 42.32985974844715,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 92790332.76833199,
-            "gas_value": 126553656.22749896,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 8000.0,
             "solar": 1.0,
             "wind": 1.0
         },
@@ -936,26 +516,6 @@
             "demand_value": 219443988.9958328,
             "clean_value": 115504665.53666611,
             "gas_value": 103839323.45916748,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 8000.0,
-            "solar": 1.5,
-            "wind": 1.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 63.03157308520563,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 138218998.3050001,
-            "gas_value": 81124990.69083385,
             "curtailed_value": 0.0
         }
     },
@@ -986,26 +546,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 8000.0,
-            "solar": 2.5,
-            "wind": 2.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 81.79358040826737,
-            "curtailed": 1.9397060136975737,
-            "demand_value": 219443988.9958328,
-            "clean_value": 183647663.84166563,
-            "gas_value": 39952893.40541689,
-            "curtailed_value": 4256568.251250011
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 8000.0,
             "solar": 3.0,
             "wind": 3.0
         },
@@ -1026,26 +566,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 8000.0,
-            "solar": 3.5,
-            "wind": 3.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 91.58039331529943,
-            "curtailed": 12.854606443424812,
-            "demand_value": 219443988.9958328,
-            "clean_value": 229076329.37833467,
-            "gas_value": 18476320.766666714,
-            "curtailed_value": 28208661.14916676
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 8000.0,
             "solar": 4.0,
             "wind": 4.0
         },
@@ -1057,26 +577,6 @@
             "clean_value": 251790662.14666662,
             "gas_value": 12834727.119999975,
             "curtailed_value": 45281400.27083343
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 8000.0,
-            "solar": 4.5,
-            "wind": 4.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 95.93605674562997,
-            "curtailed": 29.189407686950453,
-            "demand_value": 219443988.9958328,
-            "clean_value": 274504994.9149994,
-            "gas_value": 8918079.187916651,
-            "curtailed_value": 64054400.59250032
         }
     },
     {
@@ -1126,26 +626,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 10000.0,
-            "solar": 0.5,
-            "wind": 0.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 50.31321808975612,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 110309332.76833265,
-            "gas_value": 109034656.22749902,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 10000.0,
             "solar": 1.0,
             "wind": 1.0
         },
@@ -1156,26 +636,6 @@
             "demand_value": 219443988.9958328,
             "clean_value": 133023665.53666502,
             "gas_value": 86320323.45916703,
-            "curtailed_value": 0.0
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 10000.0,
-            "solar": 1.5,
-            "wind": 1.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 71.0149314265148,
-            "curtailed": 0.0,
-            "demand_value": 219443988.9958328,
-            "clean_value": 155737998.30500045,
-            "gas_value": 63605990.69083343,
             "curtailed_value": 0.0
         }
     },
@@ -1206,26 +666,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 10000.0,
-            "solar": 2.5,
-            "wind": 2.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 87.42977816933626,
-            "curtailed": 4.286866593937694,
-            "demand_value": 219443988.9958328,
-            "clean_value": 201166663.84166515,
-            "gas_value": 27584596.21083351,
-            "curtailed_value": 9407271.056666667
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 10000.0,
             "solar": 3.0,
             "wind": 3.0
         },
@@ -1246,26 +686,6 @@
             "min_soc": 0.0,
             "max_soc": 1.0,
             "nuclear": 10000.0,
-            "solar": 3.5,
-            "wind": 3.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 94.86712937495993,
-            "curtailed": 17.551228725073436,
-            "demand_value": 219443988.9958328,
-            "clean_value": 246595329.37833643,
-            "gas_value": 11263776.049583273,
-            "curtailed_value": 38515116.4320836
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 10000.0,
             "solar": 4.0,
             "wind": 4.0
         },
@@ -1277,26 +697,6 @@
             "clean_value": 269309662.14666706,
             "gas_value": 7278827.773333304,
             "curtailed_value": 57218408.77083317
-        }
-    },
-    {
-        "config": {
-            "battery": 200000.0,
-            "initial_soc": 0.5,
-            "min_soc": 0.0,
-            "max_soc": 1.0,
-            "nuclear": 10000.0,
-            "solar": 4.5,
-            "wind": 4.5
-        },
-        "output": null,
-        "totals": {
-            "clean": 97.89959425986486,
-            "curtailed": 35.19467653249332,
-            "demand_value": 219443988.9958328,
-            "clean_value": 292023994.91499925,
-            "gas_value": 4609214.141250014,
-            "curtailed_value": 77232602.09708358
         }
     },
     {

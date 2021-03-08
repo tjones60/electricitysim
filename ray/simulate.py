@@ -7,8 +7,10 @@ import numpy as np
 from tabulate import tabulate
 from ray.util.multiprocessing.pool import Pool
 
-pool = Pool()
+pool = Pool(ray_address="auto")
+config = {}
 data = pd.DataFrame()
+wind_same_as_solar = True
 time_factor = 12
 export_intermediate = False
 
@@ -36,33 +38,36 @@ def import_data(production, curtailment):
     #print(tabulate(data.head(10), headers='keys', tablefmt='psql'))
 
 
-def import_config(config_file):
-
-    config = configparser.ConfigParser()
-    config.read(config_file)
+def import_config(config_file_name):
+    global config
+    #config = configparser.ConfigParser()
+    #config.read(config_file)
+    with open(config_file_name, 'r') as config_file:
+        config = json.load(config_file)
+    #print(json.dumps(config, indent=4))
     import_data(config['data']['production'], config['data']['curtailment'])
 
     configs = pd.DataFrame(
         columns=['battery','initial_soc','min_soc','max_soc',
         'nuclear','solar','wind'])
 
-    wind_same_as_solar = strtobool(config['wind']['same_as_solar'])
-    export_intermediate = strtobool(config['data']['export_intermediate'])
-    time_factor = float(config['data']['time_factor'])
+    wind_same_as_solar = config['wind']['wind_same_as_solar']
+    export_intermediate = config['data']['export_intermediate']
+    time_factor = config['data']['time_factor']
     
-    nuclear_samples = int(config['nuclear']['nuclear_samples'])
-    solar_samples = int(config['solar']['solar_samples'])
-    battery_samples = int(config['battery']['battery_samples'])
+    nuclear_samples = config['nuclear']['nuclear_samples']
+    solar_samples = config['solar']['solar_samples']
+    battery_samples = config['battery']['battery_samples']
 
     if wind_same_as_solar:
         wind_samples = 1
     else:
-        wind_samples = int(config['wind']['wind_samples'])
+        wind_samples = config['wind']['wind_samples']
 
     configs['nuclear'] = np.repeat(
         np.linspace(
-            float(config['nuclear']['nuclear_min']),
-            float(config['nuclear']['nuclear_max']),
+            config['nuclear']['nuclear_min'],
+            config['nuclear']['nuclear_max'],
             nuclear_samples
         ),
         solar_samples * wind_samples * battery_samples
@@ -71,8 +76,8 @@ def import_config(config_file):
     configs['solar'] = np.tile(
         np.repeat(
             np.linspace(
-                float(config['solar']['solar_min']),
-                float(config['solar']['solar_max']),
+                config['solar']['solar_min'],
+                config['solar']['solar_max'],
                 solar_samples
             ),
             wind_samples * battery_samples
@@ -86,8 +91,8 @@ def import_config(config_file):
         configs['wind'] = np.tile(
             np.repeat(
                 np.linspace(
-                    float(config['wind']['wind_min']),
-                    float(config['wind']['wind_max']),
+                    config['wind']['wind_min'],
+                    config['wind']['wind_max'],
                     wind_samples
                 ),
                 battery_samples
@@ -97,16 +102,16 @@ def import_config(config_file):
 
     configs['battery'] = np.tile(
         np.linspace(
-            float(config['battery']['battery_min']),
-            float(config['battery']['battery_max']),
+            config['battery']['battery_min'],
+            config['battery']['battery_max'],
             battery_samples
         ),
         nuclear_samples * solar_samples * wind_samples
     )
 
-    configs['min_soc'] = float(config['battery']['min_soc'])
-    configs['max_soc'] = float(config['battery']['max_soc'])
-    configs['initial_soc'] = float(config['battery']['initial_soc'])
+    configs['min_soc'] = config['battery']['min_soc']
+    configs['max_soc'] = config['battery']['max_soc']
+    configs['initial_soc'] = config['battery']['initial_soc']
 
     #print(tabulate(configs, headers='keys', tablefmt='psql'))
 
@@ -175,28 +180,99 @@ def simulate(config):
     if not export_intermediate:
         output = None
 
-    result = { 'config': config, 'output': output, 'totals': {
+    # result = { 'config': config, 'output': output, 'totals': {
+    #     'clean': (1.0 - total_gas / total_demand) * 100,
+    #     'curtailed': (total_curtailed / total_demand) * 100,
+    #     'demand_value': total_demand,
+    #     'clean_value': total_clean,
+    #     'gas_value': total_gas,
+    #     'curtailed_value': total_curtailed
+    # }}
+
+    result = config.copy()
+    result.update({
         'clean': (1.0 - total_gas / total_demand) * 100,
         'curtailed': (total_curtailed / total_demand) * 100,
         'demand_value': total_demand,
         'clean_value': total_clean,
         'gas_value': total_gas,
         'curtailed_value': total_curtailed
-    }}
+    })
 
-    print(json.dumps(result['totals']))
+    print(json.dumps(result))
 
     return result
-    
+
+
 def simulate_distributed(configs):
-    results = []
+
+    result_list = []
     config_list = configs.to_dict('records')
     for result in pool.map(simulate, config_list):
-        results.append(result)
-    return results
+        result_list.append(result)
+
+    results = pd.DataFrame(result_list)
+
+    constants = 3
+    if config['graph']['x2'] != 'none':
+        constants -= 1
+    if wind_same_as_solar:
+        constants -= 1
+    
+    if constants == 1:
+        subset = results.groupby(
+            results[config['graph']['c1']]
+        ).get_group(
+            config['graph']['v1']
+        )
+    elif constants == 2:
+        subset = results.groupby(
+            [results[config['graph']['c1']],results[config['graph']['c2']]]
+        ).get_group(
+            (config['graph']['v1'],config['graph']['v2'])
+        )
+    elif constants == 3:
+        subset = results.groupby(
+            [results[config['graph']['c1']],results[config['graph']['c2']],results[config['graph']['c3']]]
+        ).get_group(
+            (config['graph']['v1'],config['graph']['v2'],config['graph']['v3'])
+        )
+
+    traces = []
+    if config['graph']['x2'] == 'none':
+        traces.append({
+            'x': subset[config['graph']['x1']].tolist(),
+            'y': subset[config['graph']['y']].tolist(),
+            'type': 'scatter',
+            'name': config['graph']['x1'],
+        })
+    else:
+        for name, group in subset.groupby(config['graph']['x2']):
+            traces.append({
+                'x': group[config['graph']['x1']].tolist(),
+                'y': group[config['graph']['y']].tolist(),
+                'type': 'scatter',
+                'name': config['graph']['x2'] + " = " + str(name),
+            })
+
+    layout = {
+        'title': config['graph']['y'] + " vs " + config['graph']['x1'],
+        'xaxis': { 'title': config['graph']['x1'] },
+        'yaxis': { 'title': config['graph']['y'] }
+    }
+
+    plot_data = {
+        'traces': traces,
+        'layout': layout
+    }
+
+    return (result_list, plot_data)
+
 
 if __name__ == '__main__':
     configs = import_config(sys.argv[1])
-    results = simulate_distributed(configs)
+    (result_list, plot_data) = simulate_distributed(configs)
     with open(sys.argv[2], 'w') as output_file:
-        json.dump(results, output_file, indent=4)
+        json.dump(result_list, output_file, indent=4)
+    with open(sys.argv[3], 'w') as output_file:
+        json.dump(plot_data, output_file, indent=4)
