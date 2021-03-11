@@ -180,36 +180,30 @@ def simulate(config):
     if not export_intermediate:
         output = None
 
-    # result = { 'config': config, 'output': output, 'totals': {
-    #     'clean': (1.0 - total_gas / total_demand) * 100,
-    #     'curtailed': (total_curtailed / total_demand) * 100,
-    #     'demand_value': total_demand,
-    #     'clean_value': total_clean,
-    #     'gas_value': total_gas,
-    #     'curtailed_value': total_curtailed
-    # }}
-
-    result = config.copy()
-    result.update({
+    totals = {
         'clean': (1.0 - total_gas / total_demand) * 100,
         'curtailed': (total_curtailed / total_demand) * 100,
         'demand_value': total_demand,
         'clean_value': total_clean,
         'gas_value': total_gas,
         'curtailed_value': total_curtailed
-    })
+    }
 
-    print(json.dumps(result))
+    # result = {
+    #     'config': config,
+    #     'output': output,
+    #     'totals': totals
+    # }
 
-    return result
+    result_flat = config.copy()
+    result_flat.update(totals)
+
+    # print(json.dumps(result))
+
+    return result_flat
 
 
-def simulate_distributed(configs):
-
-    result_list = []
-    config_list = configs.to_dict('records')
-    for result in pool.map(simulate, config_list):
-        result_list.append(result)
+def generate_plot_data(result_list):
 
     results = pd.DataFrame(result_list)
 
@@ -266,12 +260,23 @@ def simulate_distributed(configs):
         'layout': layout
     }
 
-    return (result_list, plot_data)
+    return plot_data
+
+
+def simulate_distributed(configs):
+
+    result_list = []
+    config_list = configs.to_dict('records')
+    for result_flat in pool.map(simulate, config_list):
+        result_list.append(result_flat)
+
+    return result_list
 
 
 if __name__ == '__main__':
     configs = import_config(sys.argv[1])
-    (result_list, plot_data) = simulate_distributed(configs)
+    result_list = simulate_distributed(configs)
+    plot_data = generate_plot_data(result_list)
     with open(sys.argv[2], 'w') as output_file:
         json.dump(result_list, output_file, indent=4)
     with open(sys.argv[3], 'w') as output_file:
