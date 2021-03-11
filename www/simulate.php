@@ -7,7 +7,7 @@ $ip = "192.168.2.231";
 if (isset($_POST["config"])) {
     $config = json_decode($_POST["config"]);
 } else {
-    die("$varname not specified");
+    die("configuration not provided");
 }
 
 $stamp = date_timestamp_get(date_create());
