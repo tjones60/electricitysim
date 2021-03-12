@@ -35,7 +35,7 @@ def import_data(production, curtailment):
     data['wind'] += data['wind_curtailment']
     data['solar'] += data['solar_curtailment']
 
-    #print(tabulate(data.head(10), headers='keys', tablefmt='psql'))
+    #print(tabulate(data.head(20), headers='keys', tablefmt='psql'))
 
 
 def import_config(config_file_name):
@@ -113,7 +113,7 @@ def import_config(config_file_name):
     configs['max_soc'] = config['battery']['max_soc']
     configs['initial_soc'] = config['battery']['initial_soc']
 
-    #print(tabulate(configs, headers='keys', tablefmt='psql'))
+    print(tabulate(configs.head(20), headers='keys', tablefmt='psql'))
 
     return configs
 
@@ -198,7 +198,7 @@ def simulate(config):
     result_flat = config.copy()
     result_flat.update(totals)
 
-    # print(json.dumps(result))
+    print(json.dumps(result_flat))
 
     return result_flat
 
