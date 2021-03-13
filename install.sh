@@ -18,7 +18,7 @@ cat ~www-data/.ssh/id_rsa.pub >> ~ray/.ssh/authorized_keys
 
 mkdir /opt/electricitysim
 cd /opt/electricitysim/
-git clone git@github.com:tjones60/electricitysim.git .
+git clone https://github.com/tjones60/electricitysim.git .
 setfacl -m u:ray:rwx ray/output.json
 setfacl -m u:ray:rwx ray/plot.json
 mkdir www/jobs
