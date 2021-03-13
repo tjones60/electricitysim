@@ -35,5 +35,17 @@ mkdir www/jobs
 setfacl -Rm u:www-data:rwx www/jobs
 setfacl -Rdm u:www-data:rwx www/jobs
 
+echo "<VirtualHost *:80>
+    DocumentRoot /opt/electricitysim/www
 
+    <Directory /opt/electricitysim/www/>
+        Options Indexes FollowSymLinks
+        Require all granted
+    </Directory>
 
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>" > /etc/apache2/sites-available/000-electricitysim.conf
+
+a2dissite 000-default
+a2ensite 000-electricitysim
