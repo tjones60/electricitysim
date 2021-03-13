@@ -4,26 +4,16 @@ apt update
 apt upgrade -y
 apt install -y acl python3-pip apache2 php libapache2-mod-php
 
-su ray
-echo "alias python=python3" >> ~/.bashrc
-echo "alias pip=pip3" >> ~/.bashrc
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-ssh-keygen -f ~/.ssh/id_rsa -N ''
-cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-exit
-
-su ray
-pip install -U ray
-pip install -U pandas
-pip install -U tabulate
-exit
+su ray -c 'pwd'
+echo "alias python=python3" >> ~ray/.bashrc
+echo "alias pip=pip3" >> ~ray/.bashrc
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~ray/.bashrc
+su ray -c 'ssh-keygen -f ~/.ssh/id_rsa -N ""'
+cat ~ray/.ssh/id_rsa.pub >> ~ray/.ssh/authorized_keys
+su ray -c 'pip install -U ray pandas tabulate'
 
 chown www-data:www-data ~www-data
-
-su www-data -s /bin/bash
-ssh-keygen -f ~/.ssh/id_rsa -N ''
-exit
-
+su www-data -s /bin/bash -c 'ssh-keygen -f ~/.ssh/id_rsa -N ""'
 cat ~www-data/.ssh/id_rsa.pub >> ~ray/.ssh/authorized_keys
 
 mkdir /opt/electricitysim
@@ -49,3 +39,4 @@ echo "<VirtualHost *:80>
 
 a2dissite 000-default
 a2ensite 000-electricitysim
+systemctl restart apache2
