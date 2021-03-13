@@ -1,9 +1,9 @@
 #!/bin/bash
 name="batteries-4xrenewables"
 start=0
-stop=500000
+stop=5000000
 inc=50000
-rootdir="/home/ldap/tjones60/electricitysim"
+rootdir="/mnt/data-volume/calpoly/electricitysim/parallel"
 
 mkdir -p $rootdir/batch/$name
 rm -r $rootdir/batch/$name/*
@@ -21,11 +21,11 @@ while [ $x -le $stop ]; do
     echo -e "max_soc = 1.0" >> $rootdir/batch/$name/$x/config.ini
     echo -e "min_soc = 0.0" >> $rootdir/batch/$name/$x/config.ini
     echo -e "[Source]" >> $rootdir/batch/$name/$x/config.ini
-    echo -e "nuclear = 2000" >> $rootdir/batch/$name/$x/config.ini
-    echo -e "solar_scale_factor = 4.0" >> $rootdir/batch/$name/$x/config.ini
-    echo -e "wind_scale_factor = 4.0" >> $rootdir/batch/$name/$x/config.ini
-    echo -e "production = $rootdir/data/production-ca-2019.csv" >> $rootdir/batch/$name/$x/config.ini
-    echo -e "curtailment = $rootdir/data/curtailment-ca-2019.csv" >> $rootdir/batch/$name/$x/config.ini
+    echo -e "nuclear = 0" >> $rootdir/batch/$name/$x/config.ini
+    echo -e "solar_scale_factor = 5.0" >> $rootdir/batch/$name/$x/config.ini
+    echo -e "wind_scale_factor = 5.0" >> $rootdir/batch/$name/$x/config.ini
+    echo -e "production = $rootdir/production-ca-2019.csv" >> $rootdir/batch/$name/$x/config.ini
+    echo -e "curtailment = $rootdir/curtailment-ca-2019.csv" >> $rootdir/batch/$name/$x/config.ini
 
     echo "python3 $rootdir/simulate.py $rootdir/batch/$name/$x/config.ini $rootdir/batch/$name/$x/output.csv" >> $rootdir/batch/$name/jobs
 

@@ -115,7 +115,7 @@ class Grid:
             
             if previous is not None:
                 delta = dt - previous
-            time_factor = 12 #3600.0 / delta.seconds
+            time_factor = 3600.0 / delta.seconds
             previous = dt
 
             inst = self.data[dt]
@@ -146,15 +146,15 @@ class Grid:
         
         self.result = [(1.0 - self.total_gas / self.total_demand) * 100, (self.total_curtailed / self.total_demand) * 100,\
             self.total_demand, self.total_clean, self.total_gas, self.total_curtailed]
-        print("% Clean % Curtailed Total Demand Total Clean Total Gas Total Curtailed<br>")
-        print(["{:.3f}".format(x) for x in self.result])
+        # print("% Clean % Curtailed Total Demand Total Clean Total Gas Total Curtailed<br>")
+        # print(["{:.2f}".format(x) for x in self.result])
 
     def export_data(self, fname):
         output = [["% Clean","% Curtailed","Total Demand","Total Clean","Total Gas","Total Curtailed"],\
-            ["{:.2f}".format(x) for x in self.result],\
-            ["Date/Time","Demand","Solar","Wind","Nuclear","Gas","Clean","Net","Battery","Curtailed","Stored","SOC"]]
-        for dt in sorted(self.data):
-            output.append([dt.strftime("%Y-%m-%d %H:%M")] + ["{:.2f}".format(x) for x in self.data[dt].to_array()])
+            ["{:.2f}".format(x) for x in self.result]]
+        #     ["Date/Time","Demand","Solar","Wind","Nuclear","Gas","Clean","Net","Battery","Curtailed","Stored","SOC"]]
+        # for dt in sorted(self.data):
+        #     output.append([dt.strftime("%Y-%m-%d %H:%M")] + ["{:.2f}".format(x) for x in self.data[dt].to_array()])
 
         with open(fname, "w") as f:
             writer = csv.writer(f,delimiter=',',lineterminator='\n')

@@ -1,16 +1,19 @@
 #!/bin/bash
 name="renewables-nuclear-4hrbatt"
 startx=0
-stopx=500
+stopx=1000
 incx=100
 starty=0
-stopy=10000
+stopy=20000
 incy=2000
-rootdir="/opt/electricitysim/parallel"
+rootdir="/mnt/data-volume/calpoly/electricitysim/parallel"
 
 if [ -d "$rootdir/batch/$name" ]; then
     rm -r batch/$name/*
 fi
+
+echo -n "Generating configs..."
+start=$SECONDS
 
 let x=$startx
 while [ $x -le $stopx ]; do
@@ -44,7 +47,18 @@ while [ $x -le $stopx ]; do
     let x=x+$incx
 done
 
+echo "Done! ($(($SECONDS-start))s)"
+
+numsims="$(wc -l < $rootdir/batch/$name/jobs)"
+echo -n "Running $numsims simulations..."
+start=$SECONDS
+
 parallel --slf sshlogin < $rootdir/batch/$name/jobs
+
+echo "Done! ($(($SECONDS-start))s)"
+
+echo -n "Merging results..."
+start=$SECONDS
 
 output="$rootdir/batch/$name/output.csv"
 
@@ -58,6 +72,7 @@ while [ $x -le $stopx ]; do
     let y=$starty
     while [ $y -le $stopy ]; do
 
+        echo -n "$y," >> $output
         head -n 2 $rootdir/batch/$name/$x/$y/output.csv | sed -n '2p' | tr -d '\n' >> $output
         echo -n "," >> $output
 
@@ -68,3 +83,5 @@ while [ $x -le $stopx ]; do
 
     let x=x+$incx
 done
+
+echo "Done! ($(($SECONDS-start))s)"

@@ -5,17 +5,18 @@ import json
 import pandas as pd
 import numpy as np
 from tabulate import tabulate
-from ray.util.multiprocessing.pool import Pool
+# from ray.util.multiprocessing.pool import Pool
+import ray
+import time
 
-pool = Pool(ray_address="auto")
-config = {}
-data = pd.DataFrame()
-wind_same_as_solar = True
-time_factor = 12
-export_intermediate = False
+# pool = Pool(ray_address="192.168.100.101:6379")
+# config = {}
+# data = pd.DataFrame()
+# wind_same_as_solar = True
+# time_factor = 12
+# export_intermediate = False
 
 def import_data(production, curtailment):
-    global data
 
     production = pd.read_csv(production,
         names=['date','hour','interval','demand','solar','wind',
@@ -37,6 +38,8 @@ def import_data(production, curtailment):
 
     #print(tabulate(data.head(20), headers='keys', tablefmt='psql'))
 
+    return data
+
 
 def import_config(config_file_name):
     global config
@@ -45,16 +48,13 @@ def import_config(config_file_name):
     with open(config_file_name, 'r') as config_file:
         config = json.load(config_file)
     #print(json.dumps(config, indent=4))
-    import_data(config['data']['production'], config['data']['curtailment'])
+    data = import_data(config['data']['production'], config['data']['curtailment'])
 
     configs = pd.DataFrame(
         columns=['battery','initial_soc','min_soc','max_soc',
         'nuclear','solar','wind'])
 
     wind_same_as_solar = config['wind']['wind_same_as_solar']
-    export_intermediate = config['data']['export_intermediate']
-    time_factor = config['data']['time_factor']
-    
     nuclear_samples = config['nuclear']['nuclear_samples']
     solar_samples = config['solar']['solar_samples']
     battery_samples = config['battery']['battery_samples']
@@ -112,13 +112,19 @@ def import_config(config_file_name):
     configs['min_soc'] = config['battery']['min_soc']
     configs['max_soc'] = config['battery']['max_soc']
     configs['initial_soc'] = config['battery']['initial_soc']
+    configs['wind_same_as_solar'] = config['wind']['wind_same_as_solar']
+    configs['export_intermediate'] = config['data']['export_intermediate']
+    configs['time_factor'] = config['data']['time_factor']
 
-    print(tabulate(configs.head(20), headers='keys', tablefmt='psql'))
+    # print(tabulate(configs.head(20), headers='keys', tablefmt='psql'))
 
-    return configs
+    config_list = configs.to_dict('records')
+
+    return (config, config_list, data)
 
 
-def simulate(config):
+@ray.remote
+def simulate(config, data):
 
     output = data.copy()
     
@@ -139,6 +145,8 @@ def simulate(config):
     curtailed = [0.0] * samples
     soc = [0.0] * samples
     net = output['net'].array
+
+    time_factor = config['time_factor']
 
     for i in range(samples):
         temp = current_value + net[i] / time_factor
@@ -177,7 +185,7 @@ def simulate(config):
     total_gas = sum(output['gas']) / time_factor
     total_curtailed = sum(output['curtailed']) / time_factor
 
-    if not export_intermediate:
+    if not config['export_intermediate']:
         output = None
 
     totals = {
@@ -198,19 +206,19 @@ def simulate(config):
     result_flat = config.copy()
     result_flat.update(totals)
 
-    print(json.dumps(result_flat))
+    # print(json.dumps(result_flat))
 
     return result_flat
 
 
-def generate_plot_data(result_list):
+def generate_plot_data(config, result_list):
 
     results = pd.DataFrame(result_list)
 
     constants = 3
     if config['graph']['x2'] != 'none':
         constants -= 1
-    if wind_same_as_solar:
+    if config['wind']['wind_same_as_solar']:
         constants -= 1
     
     if constants == 1:
@@ -263,21 +271,47 @@ def generate_plot_data(result_list):
     return plot_data
 
 
-def simulate_distributed(configs):
+def simulate_distributed(config_list, data):
 
+    data_id = ray.put(data)
+
+    # result_list = []
+    # for result_flat in pool.map(simulate, config_list):
+    #     result_list.append(result_flat)
+    
+    result_ids = []
+    for config in config_list:
+        result_ids.append(simulate.remote(config, data_id))
+    
     result_list = []
-    config_list = configs.to_dict('records')
-    for result_flat in pool.map(simulate, config_list):
+    for result_flat in ray.get(result_ids):
         result_list.append(result_flat)
 
     return result_list
 
 
 if __name__ == '__main__':
-    configs = import_config(sys.argv[1])
-    result_list = simulate_distributed(configs)
-    plot_data = generate_plot_data(result_list)
+    ray.init(address="192.168.100.101:6379")
+
+    print("Generating configs...", end='', flush=True)
+    start = time.time()
+    config, config_list, data = import_config(sys.argv[1])
+    print("Done! ({:.2f}s)".format(time.time()-start))
+
+    print("Running " + str(len(config_list)) + " simuations...", end='', flush=True)
+    start = time.time()
+    result_list = simulate_distributed(config_list, data)
+    print("Done! ({:.2f}s)".format(time.time()-start))
+
+    print("Generating plot data...", end='', flush=True)
+    start = time.time()
+    plot_data = generate_plot_data(config, result_list)
+    print("Done! ({:.2f}s)".format(time.time()-start))
+
+    print("Writing files...", end='', flush=True)
+    start = time.time()
     with open(sys.argv[2], 'w') as output_file:
         json.dump(result_list, output_file, indent=4)
     with open(sys.argv[3], 'w') as output_file:
         json.dump(plot_data, output_file, indent=4)
+    print("Done! ({:.2f}s)".format(time.time()-start))
