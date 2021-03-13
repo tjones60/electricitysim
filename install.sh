@@ -4,7 +4,7 @@ apt update
 apt upgrade -y
 apt install -y acl python3-pip apache2 php libapache2-mod-php
 
-su ray -c 'pwd'
+su ray -c 'echo ~'
 echo "alias python=python3" >> ~ray/.bashrc
 echo "alias pip=pip3" >> ~ray/.bashrc
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~ray/.bashrc
