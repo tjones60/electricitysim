@@ -27,7 +27,7 @@ su ray -c 'touch ~/.ssh/authorized_keys'
 cat ~ray/.ssh/id_rsa.pub >> ~ray/.ssh/authorized_keys
 
 # install required pip packages
-su ray -c 'pip install -U ray pandas tabulate'
+su ray -c 'pip3 install -U ray pandas tabulate'
 
 # www-data ssh-keygen and copy if to ray
 chown www-data:www-data ~www-data
