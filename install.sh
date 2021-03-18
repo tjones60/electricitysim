@@ -43,6 +43,8 @@ setfacl -m u:ray:rwx ray/plot.json
 mkdir www/jobs
 setfacl -Rm u:www-data:rwx www/jobs
 setfacl -Rdm u:www-data:rwx www/jobs
+setfacl -Rm u:ray:rwx www/jobs
+setfacl -Rdm u:ray:rwx www/jobs
 
 # create apache vhost
 echo "<VirtualHost *:80>
