@@ -5,6 +5,7 @@
 # the ray user should already exist on this system and any other system
 # that will be used as a worker. ssh keys should be copied between the
 # ray users on all computers (or use ldap account with shared home dir).
+# python, pip, ray, pandas, and tabulate need to be install on all workers.
 # this script otherwise generally assumes a fresh ubuntu install with
 # no other services running
 
