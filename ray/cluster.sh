@@ -1,9 +1,10 @@
 #!/bin/bash
 ray="~/.local/bin/ray"
+dir="/opt/electricitysim"
 user="ray"
 port="6379"
-head="192.168.100.101"
-workers=( "192.168.100.102" "192.168.100.103" "192.168.100.104" )
+head="localhost"
+workers=()
 
 case $1 in
 
@@ -23,8 +24,17 @@ case $1 in
         ssh $user@$head "$ray stop"
         ;;
 
+    exec)
+        if [ -z "$2" ]
+        then
+            echo "Missing job directory: cluster.sh exec <dir>"
+        else
+            ssh $user@$head "python3 $dir/ray/simulate.py $dir/www/jobs/$2/config.json $dir/www/jobs/$2/output.json $dir/www/jobs/$2/plot.json $ip:$port"
+        fi
+        ;;
+
     *)
-        echo "Usage: cluster.sh <start|stop>"
+        echo "Usage: cluster.sh <start|stop|exec>"
         ;;
 
 esac

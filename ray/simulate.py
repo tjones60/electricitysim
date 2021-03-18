@@ -5,17 +5,10 @@ import json
 import pandas as pd
 import numpy as np
 from tabulate import tabulate
-# from ray.util.multiprocessing.pool import Pool
 import ray
 import time
 
-# pool = Pool(ray_address="192.168.100.101:6379")
-# config = {}
-# data = pd.DataFrame()
-# wind_same_as_solar = True
-# time_factor = 12
-# export_intermediate = False
-
+# read csv files containing production and curtailment data into a dataframe
 def import_data(production, curtailment):
 
     production = pd.read_csv(production,
@@ -41,13 +34,12 @@ def import_data(production, curtailment):
     return data
 
 
+# read the provided JSON configuration file and generate all combinations of inputs
 def import_config(config_file_name):
-    global config
-    #config = configparser.ConfigParser()
-    #config.read(config_file)
+
     with open(config_file_name, 'r') as config_file:
         config = json.load(config_file)
-    #print(json.dumps(config, indent=4))
+
     data = import_data(config['data']['production'], config['data']['curtailment'])
 
     configs = pd.DataFrame(
@@ -123,11 +115,13 @@ def import_config(config_file_name):
     return (config, config_list, data)
 
 
+# simulate the sources of electricity on the grid at every data point
 @ray.remote
 def simulate(config, data):
 
     output = data.copy()
     
+    # these operations can be done without loops
     output['solar'] *= config['solar']
     output['wind'] *= config['wind']
     output['nuclear'] = config['nuclear']
@@ -148,6 +142,7 @@ def simulate(config, data):
 
     time_factor = config['time_factor']
 
+    # a loop is required because the core simulation depends on the previous row
     for i in range(samples):
         temp = current_value + net[i] / time_factor
 
@@ -174,6 +169,7 @@ def simulate(config, data):
 
         current_value = stored[i]
 
+    # calculate totals
     output['gas'] = pd.Series(gas)
     output['curtailed'] = pd.Series(curtailed)
     output['stored'] = pd.Series(stored)
@@ -203,6 +199,7 @@ def simulate(config, data):
     #     'totals': totals
     # }
 
+    # this dictionary will be used as a row in a new dataframe
     result_flat = config.copy()
     result_flat.update(totals)
 
@@ -215,12 +212,15 @@ def generate_plot_data(config, result_list):
 
     results = pd.DataFrame(result_list)
 
+    # determine how many constants there should be
     constants = 3
     if config['graph']['x2'] != 'none':
         constants -= 1
     if config['wind']['wind_same_as_solar']:
         constants -= 1
     
+    # filter the data by the constants
+    # this shouldn't do anything with a proper configuration
     if constants == 1:
         subset = results.groupby(
             results[config['graph']['c1']]
@@ -240,6 +240,7 @@ def generate_plot_data(config, result_list):
             (config['graph']['v1'],config['graph']['v2'],config['graph']['v3'])
         )
 
+    # generate the plot data objects for plot.ly
     traces = []
     if config['graph']['x2'] == 'none':
         traces.append({
@@ -257,6 +258,7 @@ def generate_plot_data(config, result_list):
                 'name': config['graph']['x2'] + " = " + str(name),
             })
 
+    # label the axes for plot.ly
     layout = {
         'title': config['graph']['y'] + " vs " + config['graph']['x1'],
         'xaxis': { 'title': config['graph']['x1'] },
@@ -271,13 +273,10 @@ def generate_plot_data(config, result_list):
     return plot_data
 
 
+# runs the simulations specified in the config list on the ray cluster
 def simulate_distributed(config_list, data):
 
     data_id = ray.put(data)
-
-    # result_list = []
-    # for result_flat in pool.map(simulate, config_list):
-    #     result_list.append(result_flat)
     
     result_ids = []
     for config in config_list:
@@ -291,7 +290,16 @@ def simulate_distributed(config_list, data):
 
 
 if __name__ == '__main__':
-    ray.init(address="192.168.100.101:6379")
+
+    # run the simulation locally or on a ray cluster if specified
+    argc = len(sys.argv)
+    if argc == 5:
+        ray.init(address=sys.argv[4])
+    elif argc == 4:
+        ray.init()
+    else:
+        print("Usage: python simulate.py <config> <output> <plot> [address]")
+        sys.exit()
 
     print("Generating configs...", end='', flush=True)
     start = time.time()

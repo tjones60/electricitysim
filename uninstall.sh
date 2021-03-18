@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# run this script to restore the default apache website
+# and remove the electricity sim files
+
 a2dissite 000-electricitysim
 a2ensite 000-default
 systemctl restart apache2

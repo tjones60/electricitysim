@@ -1,25 +1,31 @@
 <?php
 
-$dir = "/opt/electricitysim";
-$user = "ray";
-$ip = "192.168.2.231";
-
 if (isset($_POST["config"])) {
     $config = json_decode($_POST["config"]);
 } else {
     die("configuration not provided");
 }
 
-$stamp = date_timestamp_get(date_create());
-mkdir("jobs/$stamp");
+$lock = fopen("jobs/sim.lock", "w");
 
-file_put_contents("$dir/www/jobs/$stamp/config.json", json_encode($config, JSON_PRETTY_PRINT));
+if (flock($lock, LOCK_EX)) {
 
-$cmd  = "ssh $user@$ip '~/.local/bin/ray exec $dir/ray/cluster.yaml ";
-$cmd .= "\"python3 $dir/ray/simulate.py $dir/www/jobs/$stamp/config.json $dir/www/jobs/$stamp/output.json $dir/www/jobs/$stamp/plot.json\"'";
+    $stamp = date_timestamp_get(date_create());
+    $i = 0;
+    while (is_dir("jobs/$stamp-$i"))
+        $i++;
+    $stamp = "$stamp-$i";
+    mkdir("jobs/$stamp");
+    file_put_contents("jobs/$stamp/config.json", json_encode($config, JSON_PRETTY_PRINT));
+    shell_exec("bash ../ray/cluster.sh exec $stamp");
+    echo file_get_contents("jobs/$stamp/plot.json");
 
-shell_exec($cmd);
+    flock($lock, LOCK_UN);
 
-echo file_get_contents("$dir/www/jobs/$stamp/plot.json");
+} else {
+    echo "Could not obtain lock";
+}
+
+fclose($lock);
 
 ?>

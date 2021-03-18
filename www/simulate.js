@@ -64,7 +64,7 @@ function simulate() {
 
 function draw(data_str) {
     var data = JSON.parse(data_str);
-    Plotly.newPlot(document.getElementById('plot'), data.traces, data.layout);
+    Plotly.newPlot(document.getElementById('plot'), data.traces, data.layout, {responsive: true});
 }
 
 function sendRequest(script, args=null, result=null, callback=null) {
